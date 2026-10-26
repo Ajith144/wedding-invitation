@@ -1,0 +1,25 @@
+import { Card, Caption1, Title3 } from '@fluentui/react-components';
+import { ImageRegular } from '@fluentui/react-icons';
+
+export default function PhotoReel({ photos }) {
+  return (
+    <div className="photo-grid">
+      {photos.map((photo, index) => (
+        <Card className={`photo-card photo-card--${index + 1}`} key={photo.id}>
+          <img src={photo.src} alt={photo.alt} loading="lazy" />
+          <div className="photo-caption">
+            <Title3>{photo.title}</Title3>
+            <Caption1>{photo.caption}</Caption1>
+          </div>
+        </Card>
+      ))}
+      {photos.length === 0 && (
+        <Card className="empty-state">
+          <ImageRegular className="empty-state-icon" aria-hidden="true" />
+          <Title3>Photos will find their place here</Title3>
+          <p className="body-muted">No approved photos are attached to this invitation yet.</p>
+        </Card>
+      )}
+    </div>
+  );
+}
