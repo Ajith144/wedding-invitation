@@ -208,9 +208,9 @@ export default function App() {
         <header className="site-header" aria-hidden={!envelopeOpened}>
           <Toolbar className="site-toolbar" aria-label="Wedding invitation toolbar">
             <div className="brand-lockup">
-              <Avatar name="Ananya and Arjun" initials="A&A" shape="circular" />
+              <Avatar name={invitationData.couple} initials="A&A" shape="circular" />
               <div>
-                <Text weight="semibold">Ananya &amp; Arjun</Text>
+                <Text weight="semibold">{invitationData.couple}</Text>
                 <Caption1>Wedding invitation</Caption1>
               </div>
             </div>
@@ -277,14 +277,14 @@ export default function App() {
                     <rect width="800" height="400" fill="url(#hero-glow-b)" />
                   </svg>
                   <div className="hero-copy">
-                    <span className="hero-eyebrow"><Sparkles size={14} aria-hidden="true" />Editable demo details · verify before publication</span>
+                    <span className="hero-eyebrow"><Sparkles size={14} aria-hidden="true" />Wedding celebration · Bengaluru</span>
                     <Title1 as="h1" id="hero-title">{invitationData.couple}</Title1>
                     <p>{invitationData.description}</p>
                     <div className="hero-actions">
                       <Button appearance="primary" icon={<MailRegular />} onClick={openInvitation}>Open your invitation</Button>
                       <Button appearance="secondary" className="hero-secondary" icon={<CalendarRegular />} onClick={() => setCalendarOpen(true)}>View the celebration schedule</Button>
                     </div>
-                    <div className="hero-place"><LocationRegular aria-hidden="true" /> Bengaluru, India <span /> 18-19 November 2026</div>
+                    <div className="hero-place"><LocationRegular aria-hidden="true" /> {invitationData.venueArea} <span /> {invitationData.events[0]?.dateLabel} – {invitationData.events[1]?.dateLabel}</div>
                   </div>
                   <div className="hero-side-note" aria-hidden="true">Together<br />with our<br />families</div>
                 </motion.section>
@@ -294,14 +294,18 @@ export default function App() {
                   <Card className="letter-card">
                     <span className="letter-rule" aria-hidden="true" />
                     <p className="letter-recipient">Dear {guest},</p>
-                    <p className="letter-copy">Please join Ananya &amp; Arjun and their families for the wedding reception and muhurtham. Your presence will make these celebrations all the more meaningful.</p>
-                    <p className="demo-note">{invitationData.demoNotice}</p>
-                    <p className="letter-signoff">With love,<br /><span>Ananya &amp; Arjun</span></p>
+                    <p className="letter-copy">{invitationData.invitationMessage}</p>
+                    <div className="family-details">
+                      {invitationData.familyDetails.map((family) => (
+                        <p key={family.label}><span>{family.label}</span>{family.names}</p>
+                      ))}
+                    </div>
+                    <p className="letter-signoff">With love,<br /><span>{invitationData.couple}</span></p>
                   </Card>
                 </section>
 
                 <section id="events" className="content-section" aria-labelledby="events-title">
-                  <SectionHeading icon={<CalendarRegular aria-hidden="true" />} title="The celebrations" hint={invitationData.venue} />
+                  <SectionHeading icon={<CalendarRegular aria-hidden="true" />} title="The celebrations" hint={`${invitationData.venue}, ${invitationData.venueArea}`} />
                   <div className="event-grid">
                     {invitationData.events.map((event, index) => (
                       <Card className={`event-card event-card--${index + 1}`} key={event.id}>
@@ -328,18 +332,16 @@ export default function App() {
                 </section>
 
                 <section id="venue" className="content-section venue-section" aria-labelledby="venue-title">
-                  <SectionHeading icon={<LocationRegular aria-hidden="true" />} title="Find the venue" hint="Address to be verified" />
+                  <SectionHeading icon={<LocationRegular aria-hidden="true" />} title="Find the venue" hint="Vijayanagar, Bengaluru" />
                   <Card className="venue-card">
                     <div className="venue-mark"><LocationRegular aria-hidden="true" /></div>
                     <div className="venue-copy">
                       <Title2>{invitationData.venue}</Title2>
                       <p>{invitationData.venueAddress}</p>
-                      <p className="body-muted">The street address has not been verified. Search by venue name and city; no map pin is provided.</p>
                       <a className="venue-link" href={invitationData.mapUrl} target="_blank" rel="noopener noreferrer">
-                        <LocationRegular aria-hidden="true" /> Search Sri Convention Hall, Bengaluru <span aria-hidden="true">↗</span>
+                        <LocationRegular aria-hidden="true" /> Search {invitationData.venue} <span aria-hidden="true">↗</span>
                       </a>
                     </div>
-                    <div className="venue-coordinate" aria-hidden="true"><span>12°58′N</span><span>77°35′E</span><small>APPROXIMATE CITY ONLY</small></div>
                   </Card>
                 </section>
 
@@ -360,12 +362,12 @@ export default function App() {
 
         <footer className="site-footer" aria-hidden={!envelopeOpened}>
           <div className="footer-monogram">A&amp;A</div>
-          <p>Ananya &amp; Arjun · Editable demo invitation</p>
-          <Caption1>Wedding details, venue address, and media require verification.</Caption1>
+          <p>{invitationData.couple} · Wedding invitation</p>
+          <Caption1>Personal photographs and soundtrack may be added by the families.</Caption1>
         </footer>
 
         <AnimatePresence>
-          {!envelopeOpened && <RoyalEnvelope guest={guest} onOpen={openInvitation} />}
+          {!envelopeOpened && <RoyalEnvelope couple={invitationData.couple} guest={guest} onOpen={openInvitation} />}
         </AnimatePresence>
         <VinylPlayer
           audioRef={audioRef}

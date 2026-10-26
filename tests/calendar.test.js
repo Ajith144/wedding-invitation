@@ -23,10 +23,11 @@ describe('calendar utilities', () => {
 
   it('writes CRLF calendar data with timezone and both display alarms', () => {
     const calendar = buildCalendarFile(wedding.events[0], new Date('2026-10-26T12:00:00.000Z'));
-    expect(calendar).toContain('DTSTART;TZID=Asia/Kolkata:20261118T180000');
+    expect(calendar).toContain('DTSTART;TZID=Asia/Kolkata:20261118T183000');
     expect(calendar).toContain('TRIGGER:-P1D');
     expect(calendar).toContain('TRIGGER:-PT2H');
-    expect(calendar).toContain('UID:reception-2026@ananya-arjun-wedding-demo');
+    expect(calendar).toContain('UID:reception-2026@ajith-anjana-wedding');
+    expect(calendar).toContain('SUMMARY:Reception | Ajith B & Anjana S');
     expect(calendar).toMatch(/\r\n$/);
     expect(calendar).not.toMatch(/(^|[^\r])\n/);
   });
@@ -44,6 +45,6 @@ describe('calendar utilities', () => {
     }));
     expect(url.searchParams.get('ctz')).toBe('Asia/Kolkata');
     expect(url.searchParams.get('location')).toBe('Hall & Garden, Bengaluru');
-    expect(url.searchParams.get('dates')).toBe('20261118T180000/20261118T210000');
+    expect(url.searchParams.get('dates')).toBe('20261118T183000/20261118T220000');
   });
 });

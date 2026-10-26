@@ -95,7 +95,9 @@ h1, h2, h3 { font-family: 'Cinzel', Georgia, serif; letter-spacing: 0; }
 .letter-rule { display: block; width: 58px; height: 2px; margin-bottom: 20px; background: var(--gold); }
 .letter-recipient { margin: 0 0 12px; font-family: 'Cinzel', Georgia, serif; font-size: 19px; }
 .letter-copy { max-width: 72ch; color: var(--muted); font-size: 15px; line-height: 1.9; }
-.demo-note { display: inline-block; margin: 8px 0 2px; padding: 9px 12px; border-left: 2px solid var(--gold); color: var(--muted); font-size: 11px; }
+.family-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+.family-details p { display: flex; flex-direction: column; gap: 4px; margin: 0; padding: 11px 13px; border-left: 2px solid var(--gold); background: color-mix(in srgb, var(--gold) 7%, var(--paper-raised)); color: var(--ink); font-size: 12px; }
+.family-details p span { color: var(--muted); font-size: 9px; text-transform: uppercase; }
 .letter-signoff { margin: 22px 0 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
 .letter-signoff span { color: var(--ruby); font-family: 'Cinzel', Georgia, serif; font-size: 18px; }
 
@@ -142,8 +144,6 @@ h1, h2, h3 { font-family: 'Cinzel', Georgia, serif; letter-spacing: 0; }
 .venue-copy .body-muted { font-size: 11px; }
 .venue-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--ruby); font-size: 12px; font-weight: 700; }
 .theme-dark .venue-link { color: #edcf97; }
-.venue-coordinate { display: flex; flex-direction: column; gap: 3px; padding-left: 22px; border-left: 1px solid var(--line); color: var(--muted); font-family: 'Cinzel', Georgia, serif; font-size: 12px; }
-.venue-coordinate small { margin-top: 5px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 8px; letter-spacing: 0; }
 
 .reminder-card { display: flex; align-items: center; justify-content: space-between; gap: 25px; padding: 24px; }
 .reminder-copy h2 { color: var(--ink); font-size: 19px; font-weight: 500; }
@@ -229,7 +229,6 @@ h1, h2, h3 { font-family: 'Cinzel', Georgia, serif; letter-spacing: 0; }
   .photo-card--3 img { height: 230px; }
   .venue-card { grid-template-columns: 42px minmax(0, 1fr); gap: 14px; padding: 19px; }
   .venue-mark { width: 40px; }
-  .venue-coordinate { grid-column: 2; padding: 9px 0 0; border-top: 1px solid var(--line); border-left: 0; }
   .reminder-card { align-items: flex-start; flex-direction: column; }
   .state-switcher { top: auto; right: 12px; bottom: 110px; }
   .vinyl-control { bottom: 12px; left: 12px; }
@@ -250,6 +249,7 @@ h1, h2, h3 { font-family: 'Cinzel', Georgia, serif; letter-spacing: 0; }
   .content-section { margin-top: 48px; }
   .section-heading h2 { font-size: 19px; }
   .section-heading .fui-Caption1 { font-size: 10px; }
+  .family-details { grid-template-columns: 1fr; }
   .photo-grid { grid-template-columns: 1fr; }
   .photo-card--2, .photo-card--3 { grid-column: auto; width: 100%; margin-top: 0; }
   .photo-card img, .photo-card--2 img, .photo-card--3 img { height: 245px; }

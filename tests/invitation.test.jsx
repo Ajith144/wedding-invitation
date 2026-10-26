@@ -27,7 +27,12 @@ describe('wedding invitation page', () => {
   it('renders the personalized invitation safely as text', async () => {
     render(<App />);
     expect(await screen.findByText('Dear Priya,')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Ananya & Arjun' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Ajith B & Anjana S' })).toBeInTheDocument();
+    expect(screen.getByText('Balakrishna M & Rani B')).toBeInTheDocument();
+    expect(screen.getByText('Shivakumar S & Manjula')).toBeInTheDocument();
+    expect(screen.getByText(/31\/10, left of Magadi Main Road/)).toBeInTheDocument();
+    expect(screen.getByText('6:30-10:00 PM IST')).toBeInTheDocument();
+    expect(screen.getByText('9:00-10:30 AM IST')).toBeInTheDocument();
   });
 
   it('opens the calendar reminder dialog from the invitation action', async () => {

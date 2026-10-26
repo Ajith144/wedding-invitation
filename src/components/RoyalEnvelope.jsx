@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRightRegular, MailRegular } from '@fluentui/react-icons';
 import { Button } from '@fluentui/react-components';
 
-export default function RoyalEnvelope({ guest, onOpen }) {
+export default function RoyalEnvelope({ couple, guest, onOpen }) {
   const buttonRef = useRef(null);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function RoyalEnvelope({ guest, onOpen }) {
         <div className="envelope-seal"><span>A&amp;A</span></div>
       </div>
       <p className="envelope-kicker">With joyful hearts, for</p>
-      <h1 id="envelope-title" className="envelope-title">Ananya &amp; Arjun</h1>
+      <h1 id="envelope-title" className="envelope-title">{couple}</h1>
       <p className="envelope-intro">A personal invitation for</p>
       <p className="envelope-recipient">{guest}</p>
       <Button

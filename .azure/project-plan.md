@@ -88,11 +88,11 @@ The frontend is an independently testable static SPA. Use Tailwind CSS, framer-m
 Wedding Invitation — event and venue details:
 | Record | Date | Time | Location / state |
 |--------|------|------|------------------|
-| Reception | Wednesday 18 November 2026 | 6:00-9:00 PM IST | Sri Convention Hall, Bengaluru |
-| Muhurtham | Thursday 19 November 2026 | 7:30-9:00 AM IST | Sri Convention Hall, Bengaluru |
-| Venue | Address to be verified | — | Sri Convention Hall, Bengaluru; use a map search link until the exact address is confirmed |
+| Reception | Wednesday 18 November 2026 | 6:30-10:00 PM IST | KARNATAKA PATEL BHAWAN, Vijayanagar, Bengaluru |
+| Muhurtham | Thursday 19 November 2026 | 9:00-10:30 AM IST | KARNATAKA PATEL BHAWAN, Vijayanagar, Bengaluru |
+| Venue | KARNATAKA PATEL BHAWAN | — | 31/10, left of Magadi Main Road, behind Saraswathi Convention Center, Govindaraja Nagar Ward, Stage 1, Vijayanagar, Bengaluru, Karnataka 560079 |
 
-Invitation content: Ananya & Arjun; clearly labeled editable demo details, never represented as verified wedding facts. The greeting reads the optional `?to=` value as text and uses a graceful default when absent. Keep content, dates, copy, venue text, media references, and eventual public domain centrally editable.
+Invitation content: Ajith B & Anjana S. Groom's parents: Balakrishna M and Rani B. Bride's parents: Shivakumar S and Manjula. These names, dates, times, and venue address were supplied by the user. The greeting reads the optional `?to=` value as text and uses a graceful default when absent. Keep content, dates, copy, venue text, media references, and eventual public domain centrally editable.
 
 Static preview state coverage: populated event details are the data state; a media skeleton represents local media loading; the empty-media fallback represents the optional hero video or personal photos not being supplied; and an inline calendar retry state represents a browser/download failure. These are fallback presentations, not a claim that the default invitation is currently failing.
 

@@ -33,7 +33,7 @@ export function buildCalendarFile(event, now = new Date()) {
   const lines = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Ananya and Arjun//Wedding Invitation//EN',
+    'PRODID:-//Ajith B and Anjana S//Wedding Invitation//EN',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VTIMEZONE',
@@ -46,13 +46,13 @@ export function buildCalendarFile(event, now = new Date()) {
     'END:STANDARD',
     'END:VTIMEZONE',
     'BEGIN:VEVENT',
-    `UID:${event.id}@ananya-arjun-wedding-demo`,
+    `UID:${event.id}@ajith-anjana-wedding`,
     `DTSTAMP:${stamp}`,
     `DTSTART;TZID=${TIME_ZONE}:${event.startLocal}`,
     `DTEND;TZID=${TIME_ZONE}:${event.endLocal}`,
-    `SUMMARY:${escapeCalendarText(`${event.name} | Ananya & Arjun`)}`,
+    `SUMMARY:${escapeCalendarText(`${event.name} | Ajith B & Anjana S`)}`,
     `LOCATION:${escapeCalendarText(event.venue)}`,
-    `DESCRIPTION:${escapeCalendarText('Editable demo invitation. Verify event details before publication.')}`,
+    `DESCRIPTION:${escapeCalendarText('Ajith B and Anjana S wedding celebration.')}`,
     'BEGIN:VALARM',
     'TRIGGER:-P1D',
     'ACTION:DISPLAY',
@@ -77,10 +77,10 @@ export function buildGoogleCalendarUrl(event) {
   const url = new URL('https://calendar.google.com/calendar/render');
   url.search = new URLSearchParams({
     action: 'TEMPLATE',
-    text: `${event.name} | Ananya & Arjun`,
+    text: `${event.name} | Ajith B & Anjana S`,
     dates: `${event.startLocal}/${event.endLocal}`,
     ctz: TIME_ZONE,
-    details: 'Editable demo invitation. Verify event details before publication.',
+    details: 'Ajith B and Anjana S wedding celebration.',
     location: event.venue,
   }).toString();
   return url.toString();

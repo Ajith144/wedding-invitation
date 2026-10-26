@@ -30,8 +30,8 @@
 
 ## Publication Caveats
 
-- Couple names, event details, and venue are editable demo content and must be verified.
-- Venue street address is unverified; keep the venue-name search link and do not add an unverified map pin.
+- Couple and parent names, event dates/times, and venue address are the details supplied by the user; confirm spelling and that the venue details match the booking before publication.
+- The map link searches the supplied KARNATAKA PATEL BHAWAN address; no independently verified coordinates are asserted.
 - Hero and gallery photos are illustrative Unsplash stock images, not personal couple photos. Verify license terms and replace with approved local imagery before publication.
 - No video or soundtrack was supplied. Do not invent either; the interface reports the missing `/bg-music.mp3` file.
 - Confirm the eventual public domain before adding canonical URL or absolute Open Graph metadata.
