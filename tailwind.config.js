@@ -4,13 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        ruby: '#7F2638',
-        foil: '#B58A43',
-        paper: '#FFFDF8',
+        evergreen: '#214A3A',
+        brass: '#C3A45F',
+        paper: '#F2EDDF',
+        observatory: '#53746B',
       },
       fontFamily: {
-        display: ['Cinzel', 'Georgia', 'serif'],
-        sans: ['Plus Jakarta Sans', 'sans-serif'],
+        display: ['Cormorant Garamond', 'Georgia', 'serif'],
+        sans: ['Manrope', 'sans-serif'],
       },
     },
   },

@@ -44,10 +44,10 @@ import { openCalendarAction } from './utils/calendar.js';
 import { getGuestName } from './utils/personalization.js';
 
 const brandRamp = {
-  10: '#f8e8eb', 20: '#f1d1d8', 30: '#e7a9b7', 40: '#d77d94',
-  50: '#c64f70', 60: '#ae3459', 70: '#98294a', 80: '#87233e',
-  90: '#7f2638', 100: '#722032', 110: '#641b2b', 120: '#571625',
-  130: '#49111f', 140: '#3d0d1a', 150: '#310914', 160: '#24060e',
+  10: '#e9f2e8', 20: '#d3e6d7', 30: '#b6d3c0', 40: '#94bea7',
+  50: '#72a88d', 60: '#548d72', 70: '#3c765c', 80: '#2c6049',
+  90: '#214a3a', 100: '#1c4032', 110: '#18372b', 120: '#142f25',
+  130: '#10271f', 140: '#0c2019', 150: '#091a14', 160: '#06130f',
 };
 const lightTheme = createLightTheme(brandRamp);
 const darkTheme = createDarkTheme(brandRamp);
@@ -89,6 +89,12 @@ function InvitationLoading() {
 export default function App() {
   const guest = getGuestName();
   const reducedMotion = useReducedMotion();
+  const sectionReveal = reducedMotion ? {} : {
+    initial: { opacity: 0, y: 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.16 },
+    transition: { duration: 0.68, ease: [0.22, 1, 0.36, 1] },
+  };
   const previewState = useSyncExternalStore(subscribePreviewState, getPreviewState, getPreviewState);
   const [loadState, setLoadState] = useState('loading');
   const [invitation, setInvitation] = useState(null);
@@ -162,7 +168,7 @@ export default function App() {
         spread: 74,
         startVelocity: 34,
         origin: { y: 0.72 },
-        colors: ['#7F2638', '#B58A43', '#F3DFAF', '#FFFDF8'],
+        colors: ['#214A3A', '#C3A45F', '#F2EDDF', '#53746B'],
         disableForReducedMotion: true,
       });
     }
@@ -259,26 +265,39 @@ export default function App() {
                 exit={reducedMotion ? undefined : { opacity: 0, y: -8 }}
                 transition={{ duration: 0.24 }}
               >
-                <motion.section className="hero-panel" aria-labelledby="hero-title">
+                <motion.section
+                  className="hero-panel"
+                  aria-labelledby="hero-title"
+                  initial={reducedMotion ? false : { opacity: 0, scale: 0.985, y: 20 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+                >
                   {mediaSource && <img className="hero-photo" src="/assets/hero-fallback.webp" alt="" loading="eager" />}
                   <div className="hero-scrim" />
-                  <svg className="hero-mesh" aria-hidden="true" viewBox="0 0 800 400" preserveAspectRatio="none">
-                    <defs>
-                      <radialGradient id="hero-glow-a" cx="0%" cy="0%" r="80%">
-                        <stop offset="0%" stopColor="#B58A43" stopOpacity="0.6" />
-                        <stop offset="100%" stopColor="#B58A43" stopOpacity="0" />
-                      </radialGradient>
-                      <radialGradient id="hero-glow-b" cx="100%" cy="100%" r="80%">
-                        <stop offset="0%" stopColor="#7F2638" stopOpacity="0.6" />
-                        <stop offset="100%" stopColor="#7F2638" stopOpacity="0" />
-                      </radialGradient>
-                    </defs>
-                    <rect width="800" height="400" fill="url(#hero-glow-a)" />
-                    <rect width="800" height="400" fill="url(#hero-glow-b)" />
+                  <svg className="hero-mesh" aria-hidden="true" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
+                    <g className="star-chart" fill="none" stroke="#d8c28d" strokeWidth="0.8">
+                      <circle cx="635" cy="193" r="123" />
+                      <circle cx="635" cy="193" r="92" />
+                      <path d="M512 193h246M635 70v246M548 106l174 174M722 106 548 280M512 193l63-87 60 56 41-92 82 123-76 87-81-49-60 49z" />
+                      <path d="M635 47v18m0 256v18m-141-146h18m246 0h18" />
+                    </g>
+                    <g className="chart-stars" fill="#f1d99e">
+                      <circle cx="575" cy="106" r="2" />
+                      <circle cx="635" cy="162" r="2.4" />
+                      <circle cx="676" cy="70" r="1.8" />
+                      <circle cx="758" cy="193" r="2.2" />
+                      <circle cx="635" cy="316" r="1.7" />
+                      <circle cx="548" cy="280" r="2" />
+                    </g>
                   </svg>
+                  <div className="hero-motes" aria-hidden="true">
+                    <span /><span /><span /><span /><span /><span />
+                  </div>
                   <div className="hero-copy">
                     <span className="hero-eyebrow"><Sparkles size={14} aria-hidden="true" />Wedding celebration · Bengaluru</span>
-                    <Title1 as="h1" id="hero-title">{invitationData.couple}</Title1>
+                    <Title1 as="h1" id="hero-title" aria-label={invitationData.couple}>
+                      {invitationData.couple.split(' & ').map((name) => <span key={name}>{name}</span>)}
+                    </Title1>
                     <p>{invitationData.description}</p>
                     <div className="hero-actions">
                       <Button appearance="primary" icon={<MailRegular />} onClick={openInvitation}>Open your invitation</Button>
@@ -289,7 +308,7 @@ export default function App() {
                   <div className="hero-side-note" aria-hidden="true">Together<br />with our<br />families</div>
                 </motion.section>
 
-                <section id="invitation" className="content-section invitation-section" aria-labelledby="invitation-title">
+                <motion.section id="invitation" className="content-section invitation-section" aria-labelledby="invitation-title" {...sectionReveal}>
                   <SectionHeading icon={<MailRegular aria-hidden="true" />} title="A note for you" hint="A warm welcome to family and friends" />
                   <Card className="letter-card">
                     <span className="letter-rule" aria-hidden="true" />
@@ -302,13 +321,20 @@ export default function App() {
                     </div>
                     <p className="letter-signoff">With love,<br /><span>{invitationData.couple}</span></p>
                   </Card>
-                </section>
+                </motion.section>
 
-                <section id="events" className="content-section" aria-labelledby="events-title">
+                <motion.section id="events" className="content-section" aria-labelledby="events-title" {...sectionReveal}>
                   <SectionHeading icon={<CalendarRegular aria-hidden="true" />} title="The celebrations" hint={`${invitationData.venue}, ${invitationData.venueArea}`} />
                   <div className="event-grid">
                     {invitationData.events.map((event, index) => (
-                      <Card className={`event-card event-card--${index + 1}`} key={event.id}>
+                      <motion.div
+                        key={event.id}
+                        initial={reducedMotion ? false : { opacity: 0, y: 20, rotate: index === 0 ? -1 : 1 }}
+                        whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                        viewport={{ once: true, amount: 0.25 }}
+                        transition={{ duration: 0.55, delay: reducedMotion ? 0 : index * 0.12 }}
+                      >
+                      <Card className={`event-card event-card--${index + 1}`}>
                         <div className="event-topline"><span className="event-number">0{index + 1}</span><span className="event-badge">{event.label}</span></div>
                         <Title2>{event.name}</Title2>
                         <p className="event-date">{event.dateLabel}</p>
@@ -316,6 +342,7 @@ export default function App() {
                         <p className="event-place"><LocationRegular aria-hidden="true" />{event.venue}</p>
                         <Button appearance="secondary" icon={<CalendarRegular />} onClick={() => setCalendarOpen(true)}>Choose {event.name} reminder</Button>
                       </Card>
+                      </motion.div>
                     ))}
                   </div>
                   {reception && <EventCountdown event={reception} />}
@@ -323,15 +350,15 @@ export default function App() {
                     <Button appearance="primary" icon={<CalendarRegular />} onClick={() => setCalendarOpen(true)}>Choose a calendar reminder</Button>
                     <Button appearance="secondary" icon={<LocationRegular />} onClick={() => navigateTo('venue')}>Find the venue</Button>
                   </div>
-                </section>
+                </motion.section>
 
-                <section id="memories" className="content-section" aria-labelledby="memories-title">
+                <motion.section id="memories" className="content-section" aria-labelledby="memories-title" {...sectionReveal}>
                   <SectionHeading icon={<ImageRegular aria-hidden="true" />} title="Moments to remember" hint="A few illustrative frames for the celebration" />
                   <PhotoReel photos={invitationData.photos} />
                   <p className="media-disclaimer">Illustrative stock imagery only. Replace with approved personal photographs before publication.</p>
-                </section>
+                </motion.section>
 
-                <section id="venue" className="content-section venue-section" aria-labelledby="venue-title">
+                <motion.section id="venue" className="content-section venue-section" aria-labelledby="venue-title" {...sectionReveal}>
                   <SectionHeading icon={<LocationRegular aria-hidden="true" />} title="Find the venue" hint="Vijayanagar, Bengaluru" />
                   <Card className="venue-card">
                     <div className="venue-mark"><LocationRegular aria-hidden="true" /></div>
@@ -343,9 +370,9 @@ export default function App() {
                       </a>
                     </div>
                   </Card>
-                </section>
+                </motion.section>
 
-                <section id="reminders" className="content-section reminder-section" aria-labelledby="reminders-title">
+                <motion.section id="reminders" className="content-section reminder-section" aria-labelledby="reminders-title" {...sectionReveal}>
                   <SectionHeading icon={<CalendarRegular aria-hidden="true" />} title="Keep the dates close" hint="Choose an event to create a reminder" />
                   <Card className="reminder-card">
                     <div className="reminder-copy">
@@ -354,7 +381,7 @@ export default function App() {
                     </div>
                     <Button appearance="primary" icon={<CalendarRegular />} onClick={() => setCalendarOpen(true)}>Choose a calendar reminder</Button>
                   </Card>
-                </section>
+                </motion.section>
               </motion.div>
             </AnimatePresence>
           )}

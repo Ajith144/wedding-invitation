@@ -63,19 +63,20 @@ The frontend is an independently testable static SPA. Use Tailwind CSS, framer-m
 ## 5. Design System & UI
 
 **Component Library**: Fluent UI v9
-**Style Direction**: An intimate, editorial invitation with a deep ruby envelope, antique-gold details, warm paper surfaces, cinematic photography, and restrained motion. Use generous whitespace, fine borders, soft layered shadows, and compact controls that remain comfortable on touch screens.
-**Typography**: Cinzel for ceremonial display type, Plus Jakarta Sans for reading and controls
+**Style Direction**: An original magical-academia invitation with an enchanted observatory atmosphere: evergreen and midnight surfaces, brass detailing, star-chart geometry, aged-paper correspondence, cinematic photography, and expressive but accessible motion. Avoid franchise names, characters, logos, and signature iconography. Use generous whitespace, fine borders, layered shadows, and touch-comfortable controls.
+**Typography**: Cormorant Garamond for ceremonial display type, Manrope for reading and controls
 
 ### Color Palette
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `primary` | `#7F2638` | Ruby envelope, invitation actions, and selected navigation |
-| `accent`  | `#B58A43` | Foil-like rules, date details, and restrained highlights |
-| `surface` | `#FFFDF8` | Warm paper page and invitation surfaces |
-| `text`    | `#28231F` | High-contrast ceremony copy and event details |
-| `muted`   | `#716A62` | Venue caveats, captions, and secondary labels |
-| `border`  | `#E6DCCB` | Fine paper-like dividers and control outlines |
+| `primary` | `#214A3A` | Evergreen envelope, invitation actions, and selected navigation |
+| `accent`  | `#C3A45F` | Brass seal, star-chart details, dates, and restrained highlights |
+| `surface` | `#F2EDDF` | Aged-paper page and invitation surfaces |
+| `text`    | `#202C24` | High-contrast ceremony copy and event details |
+| `muted`   | `#655F52` | Venue details, captions, and secondary labels |
+| `border`  | `#D2C7AC` | Fine paper-like dividers and control outlines |
+| `secondary` | `#53746B` | Observatory teal in imagery and secondary surfaces |
 
 ### Pages
 

@@ -1,3 +1,5 @@
+import couplePortrait from '../annimation-clip/3D Indian Wedding Couple Portrait.png';
+
 const venue = 'KARNATAKA PATEL BHAWAN';
 const venueAddress = '31/10, left of Magadi Main Road, behind Saraswathi Convention Center, Govindaraja Nagar Ward, Stage 1, Vijayanagar, Bengaluru, Karnataka 560079';
 const mapQuery = new URLSearchParams({ query: `${venue}, ${venueAddress}` });
@@ -58,11 +60,11 @@ export const wedding = {
       src: '/assets/story-02.webp',
     },
     {
-      id: 'flowers',
-      title: 'A little more joy',
-      caption: 'Illustrative stock photography; replace with approved local imagery.',
-      alt: 'Floral decorations prepared for a wedding celebration',
-      src: '/assets/story-03.webp',
+      id: 'couple-portrait',
+      title: 'Ajith & Anjana',
+      caption: 'A portrait of the couple in their wedding attire.',
+      alt: 'Ajith and Anjana together in Indian wedding attire',
+      src: couplePortrait,
     },
   ],
 };
