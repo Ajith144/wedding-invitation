@@ -39,6 +39,7 @@ import EventCountdown from './components/EventCountdown.jsx';
 import PhotoReel from './components/PhotoReel.jsx';
 import RoyalEnvelope from './components/RoyalEnvelope.jsx';
 import VinylPlayer from './components/VinylPlayer.jsx';
+import WeddingFlorals from './components/WeddingFlorals.jsx';
 import { wedding as demoWedding } from './content/wedding.js';
 import { openCalendarAction } from './utils/calendar.js';
 import { getGuestName } from './utils/personalization.js';
@@ -205,12 +206,10 @@ export default function App() {
     setThemePreference(modes[(modes.indexOf(themePreference) + 1) % modes.length]);
   }
 
-  const reception = invitationData.events[0];
-  const mediaSource = invitationData.photos[0]?.src;
-
   return (
     <FluentProvider theme={activeTheme}>
       <div className={`app-shell theme-${resolvedTheme}`}>
+        <WeddingFlorals variant="page" />
         <header className="site-header" aria-hidden={!envelopeOpened}>
           <Toolbar className="site-toolbar" aria-label="Wedding invitation toolbar">
             <div className="brand-lockup">
@@ -272,7 +271,6 @@ export default function App() {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {mediaSource && <img className="hero-photo" src="/assets/hero-fallback.webp" alt="" loading="eager" />}
                   <div className="hero-scrim" />
                   <svg className="hero-mesh" aria-hidden="true" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
                     <g className="star-chart" fill="none" stroke="#d8c28d" strokeWidth="0.8">
@@ -296,16 +294,16 @@ export default function App() {
                   <div className="hero-copy">
                     <span className="hero-eyebrow"><Sparkles size={14} aria-hidden="true" />Wedding celebration · Bengaluru</span>
                     <Title1 as="h1" id="hero-title" aria-label={invitationData.couple}>
-                      {invitationData.couple.split(' & ').map((name) => <span key={name}>{name}</span>)}
+                      {invitationData.couple.split(' & ').map((name, index) => <span key={name}>{index > 0 && <i aria-hidden="true">&amp;</i>}{name}</span>)}
                     </Title1>
                     <p>{invitationData.description}</p>
+                    {invitationData.events[0] && <EventCountdown event={invitationData.events[0]} variant="hero" />}
                     <div className="hero-actions">
                       <Button appearance="primary" icon={<MailRegular />} onClick={openInvitation}>Open your invitation</Button>
                       <Button appearance="secondary" className="hero-secondary" icon={<CalendarRegular />} onClick={() => setCalendarOpen(true)}>View the celebration schedule</Button>
                     </div>
-                    <div className="hero-place"><LocationRegular aria-hidden="true" /> {invitationData.venueArea} <span /> {invitationData.events[0]?.dateLabel} – {invitationData.events[1]?.dateLabel}</div>
+                    <div className="hero-place"><LocationRegular aria-hidden="true" /> {invitationData.venueArea}</div>
                   </div>
-                  <div className="hero-side-note" aria-hidden="true">Together<br />with our<br />families</div>
                 </motion.section>
 
                 <motion.section id="invitation" className="content-section invitation-section" aria-labelledby="invitation-title" {...sectionReveal}>
@@ -336,6 +334,7 @@ export default function App() {
                       >
                       <Card className={`event-card event-card--${index + 1}`}>
                         <div className="event-topline"><span className="event-number">0{index + 1}</span><span className="event-badge">{event.label}</span></div>
+                        <div className="event-card-photo"><img src={event.image} alt={event.imageAlt} loading="lazy" /></div>
                         <Title2>{event.name}</Title2>
                         <p className="event-date">{event.dateLabel}</p>
                         <p className="event-time">{event.timeLabel}</p>
@@ -344,11 +343,6 @@ export default function App() {
                       </Card>
                       </motion.div>
                     ))}
-                  </div>
-                  {reception && <EventCountdown event={reception} />}
-                  <div className="schedule-actions">
-                    <Button appearance="primary" icon={<CalendarRegular />} onClick={() => setCalendarOpen(true)}>Choose a calendar reminder</Button>
-                    <Button appearance="secondary" icon={<LocationRegular />} onClick={() => navigateTo('venue')}>Find the venue</Button>
                   </div>
                 </motion.section>
 

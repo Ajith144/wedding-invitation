@@ -14,7 +14,7 @@ function partsFor(target, now) {
   };
 }
 
-export default function EventCountdown({ event }) {
+export default function EventCountdown({ event, variant = 'card' }) {
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
@@ -22,6 +22,29 @@ export default function EventCountdown({ event }) {
   }, []);
 
   const parts = partsFor(Date.parse(event.start), now);
+
+  if (variant === 'hero') {
+    return (
+      <div className="hero-countdown" role="group" aria-label={`${event.name} countdown`}>
+        <div className="hero-countdown-heading">
+          <ClockRegular aria-hidden="true" />
+          <Caption1>Until our first celebration</Caption1>
+          <span className="hero-countdown-event">{event.name}</span>
+        </div>
+        {parts ? (
+          <div className="hero-countdown-values" aria-label={`${parts.days} days, ${parts.hours} hours, ${parts.minutes} minutes, ${parts.seconds} seconds`}>
+            {Object.entries(parts).map(([unit, value]) => (
+              <div className="hero-countdown-unit" key={unit}>
+                <strong>{String(value).padStart(2, '0')}</strong>
+                <span>{unit}</span>
+              </div>
+            ))}
+          </div>
+        ) : <strong className="hero-countdown-today">Today</strong>}
+      </div>
+    );
+  }
+
   return (
     <Card className="countdown-card">
       <div className="section-heading section-heading--compact">

@@ -1,4 +1,6 @@
 import couplePortrait from '../annimation-clip/3D Indian Wedding Couple Portrait.png';
+import receptionAttire from '../annimation-clip/Reception Attire.png';
+import joyfulWeddingImage from '../annimation-clip/Joyful South Indian Wedding Couple.png';
 
 const venue = 'KARNATAKA PATEL BHAWAN';
 const venueAddress = '31/10, left of Magadi Main Road, behind Saraswathi Convention Center, Govindaraja Nagar Ward, Stage 1, Vijayanagar, Bengaluru, Karnataka 560079';
@@ -30,6 +32,10 @@ export const wedding = {
       startLocal: '20261118T183000',
       endLocal: '20261118T220000',
       venue,
+      image: receptionAttire,
+      imageAlt: 'Ajith and Anjana in their reception attire',
+      image: receptionAttire,
+      imageAlt: 'Ajith and Anjana in their reception attire',
     },
     {
       id: 'muhurtham-2026',
@@ -42,6 +48,8 @@ export const wedding = {
       startLocal: '20261119T090000',
       endLocal: '20261119T103000',
       venue,
+      image: joyfulWeddingImage,
+      imageAlt: 'Ajith and Anjana smiling together in traditional South Indian wedding attire',
     },
   ],
   photos: [

@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRightRegular } from '@fluentui/react-icons';
 import { Button } from '@fluentui/react-components';
 import CoupleVideoScene from './CoupleVideoScene.jsx';
+import WeddingFlorals from './WeddingFlorals.jsx';
 
 export default function RoyalEnvelope({ couple, guest, onOpen }) {
   const buttonRef = useRef(null);
@@ -31,6 +32,7 @@ export default function RoyalEnvelope({ couple, guest, onOpen }) {
       exit={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
       transition={{ duration: reducedMotion ? 0.01 : 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
+      <WeddingFlorals variant="cover" />
       <CoupleVideoScene />
       <p className="envelope-kicker">With joyful hearts, for</p>
       <h1 id="envelope-title" className="envelope-title">{couple}</h1>
