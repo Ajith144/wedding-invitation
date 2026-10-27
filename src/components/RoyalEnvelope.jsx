@@ -8,6 +8,7 @@ import WeddingFlorals from './WeddingFlorals.jsx';
 export default function RoyalEnvelope({ couple, guest, onOpen }) {
   const buttonRef = useRef(null);
   const reducedMotion = useReducedMotion();
+  const coverCouple = couple.replace(/[💍✨❤️]/gu, '').replace(/\s+/g, ' ').trim();
 
   useEffect(() => {
     buttonRef.current?.focus();
@@ -35,7 +36,9 @@ export default function RoyalEnvelope({ couple, guest, onOpen }) {
       <WeddingFlorals variant="cover" />
       <CoupleVideoScene />
       <p className="envelope-kicker">With joyful hearts, for</p>
-      <h1 id="envelope-title" className="envelope-title">{couple}</h1>
+      <h1 id="envelope-title" className="envelope-title" aria-label={coverCouple}>
+        {coverCouple} <span aria-hidden="true">❤️</span>
+      </h1>
       <p className="envelope-intro">A personal invitation for</p>
       <p className="envelope-recipient">{guest}</p>
       <Button

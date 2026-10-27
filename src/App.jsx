@@ -34,7 +34,6 @@ import { Disc3, Sparkles } from 'lucide-react';
 import { api } from './api/index.js';
 import { getPreviewState, setPreviewState, subscribePreviewState } from './api/previewState.js';
 import CalendarReminderDialog from './components/CalendarReminderDialog.jsx';
-import DataStateSwitcher from './components/DataStateSwitcher.jsx';
 import EventCountdown from './components/EventCountdown.jsx';
 import PhotoReel from './components/PhotoReel.jsx';
 import RoyalEnvelope from './components/RoyalEnvelope.jsx';
@@ -139,6 +138,12 @@ export default function App() {
   const resolvedTheme = themePreference === 'system' ? (systemDark ? 'dark' : 'light') : themePreference;
   const activeTheme = resolvedTheme === 'dark' ? darkTheme : lightTheme;
   const invitationData = invitation || demoWedding;
+  const heroCouple = invitationData.couple.replace(/[💍✨]/gu, '').replace(/\s+/g, ' ').trim();
+  const heroPortrait = invitationData.photos?.find((photo) => photo.id === 'couple-portrait')
+    ?? (invitationData.events?.[1] ? {
+      src: invitationData.events[1].image,
+      alt: invitationData.events[1].imageAlt,
+    } : null);
 
   async function toggleAudio() {
     const audio = audioRef.current;
@@ -155,7 +160,7 @@ export default function App() {
       setAudioStatus('Soundtrack playing');
     } catch {
       setAudioPlaying(false);
-      setAudioStatus('No demo soundtrack was supplied. Add a licensed local /bg-music.mp3 file to enable playback.');
+      setAudioStatus('The soundtrack could not be played. Try pressing play again.');
     }
   }
 
@@ -272,29 +277,35 @@ export default function App() {
                   transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <div className="hero-scrim" />
-                  <svg className="hero-mesh" aria-hidden="true" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid slice">
-                    <g className="star-chart" fill="none" stroke="#d8c28d" strokeWidth="0.8">
-                      <circle cx="635" cy="193" r="123" />
-                      <circle cx="635" cy="193" r="92" />
-                      <path d="M512 193h246M635 70v246M548 106l174 174M722 106 548 280M512 193l63-87 60 56 41-92 82 123-76 87-81-49-60 49z" />
-                      <path d="M635 47v18m0 256v18m-141-146h18m246 0h18" />
-                    </g>
-                    <g className="chart-stars" fill="#f1d99e">
-                      <circle cx="575" cy="106" r="2" />
-                      <circle cx="635" cy="162" r="2.4" />
-                      <circle cx="676" cy="70" r="1.8" />
-                      <circle cx="758" cy="193" r="2.2" />
-                      <circle cx="635" cy="316" r="1.7" />
-                      <circle cx="548" cy="280" r="2" />
-                    </g>
-                  </svg>
+                  {heroPortrait?.src && (
+                    <figure className="hero-portrait">
+                      <img src={heroPortrait.src} alt={heroPortrait.alt || `Ajith and Anjana`} fetchPriority="high" />
+                      <figcaption>
+                        {invitationData.events.slice(0, 2).map((event) => (
+                          <span key={event.id}>{event.dateLabel.match(/\d{1,2}\s+[A-Za-z]+/)?.[0] || event.name}</span>
+                        ))}
+                      </figcaption>
+                    </figure>
+                  )}
+                  <div className="hero-fireworks" aria-hidden="true">
+                    {[0, 1, 2].map((burst) => (
+                      <div className={`hero-firework hero-firework--${burst + 1}`} key={burst}>
+                        {Array.from({ length: 8 }, (_, spark) => (
+                          <i
+                            key={spark}
+                            style={{ '--spark-angle': `${spark * 45}deg`, '--spark-delay': `${spark * 35}ms` }}
+                          />
+                        ))}
+                      </div>
+                    ))}
+                  </div>
                   <div className="hero-motes" aria-hidden="true">
                     <span /><span /><span /><span /><span /><span />
                   </div>
                   <div className="hero-copy">
                     <span className="hero-eyebrow"><Sparkles size={14} aria-hidden="true" />Wedding celebration · Bengaluru</span>
-                    <Title1 as="h1" id="hero-title" aria-label={invitationData.couple}>
-                      {invitationData.couple.split(' & ').map((name, index) => <span key={name}>{index > 0 && <i aria-hidden="true">&amp;</i>}{name}</span>)}
+                    <Title1 as="h1" id="hero-title" aria-label={heroCouple}>
+                      {heroCouple.split(' & ').map((name, index) => <span key={name}>{index > 0 && <i aria-hidden="true">&amp;</i>}{name}</span>)}
                     </Title1>
                     <p>{invitationData.description}</p>
                     {invitationData.events[0] && <EventCountdown event={invitationData.events[0]} variant="hero" />}
@@ -307,11 +318,15 @@ export default function App() {
                 </motion.section>
 
                 <motion.section id="invitation" className="content-section invitation-section" aria-labelledby="invitation-title" {...sectionReveal}>
-                  <SectionHeading icon={<MailRegular aria-hidden="true" />} title="A note for you" hint="A warm welcome to family and friends" />
+                  <SectionHeading icon={<MailRegular aria-hidden="true" />} title="A note for you" hint="A warm welcome to our dearest family and friends🙏" />
                   <Card className="letter-card">
                     <span className="letter-rule" aria-hidden="true" />
                     <p className="letter-recipient">Dear {guest},</p>
-                    <p className="letter-copy">{invitationData.invitationMessage}</p>
+                    <p className="letter-copy">
+                      {invitationData.invitationMessage.split(/(people who matter most)/gi).map((part, index) => (
+                        part.toLowerCase() === 'people who matter most' ? <strong key={index}>{part}</strong> : part
+                      ))}
+                    </p>
                     <div className="family-details">
                       {invitationData.familyDetails.map((family) => (
                         <p key={family.label}><span>{family.label}</span>{family.names}</p>
@@ -336,9 +351,11 @@ export default function App() {
                         <div className="event-topline"><span className="event-number">0{index + 1}</span><span className="event-badge">{event.label}</span></div>
                         <div className="event-card-photo"><img src={event.image} alt={event.imageAlt} loading="lazy" /></div>
                         <Title2>{event.name}</Title2>
-                        <p className="event-date">{event.dateLabel}</p>
-                        <p className="event-time">{event.timeLabel}</p>
-                        <p className="event-place"><LocationRegular aria-hidden="true" />{event.venue}</p>
+                        <div className="event-meta">
+                          <p className="event-date">{event.dateLabel}</p>
+                          <p className="event-time">{event.timeLabel}</p>
+                          <p className="event-place"><LocationRegular aria-hidden="true" />{event.venue}</p>
+                        </div>
                         <Button appearance="secondary" icon={<CalendarRegular />} onClick={() => setCalendarOpen(true)}>Choose {event.name} reminder</Button>
                       </Card>
                       </motion.div>
@@ -347,9 +364,8 @@ export default function App() {
                 </motion.section>
 
                 <motion.section id="memories" className="content-section" aria-labelledby="memories-title" {...sectionReveal}>
-                  <SectionHeading icon={<ImageRegular aria-hidden="true" />} title="Moments to remember" hint="A few illustrative frames for the celebration" />
+                  <SectionHeading icon={<ImageRegular aria-hidden="true" />} title="Moments to remember" hint="A collection of special moments leading to our forever." />
                   <PhotoReel photos={invitationData.photos} />
-                  <p className="media-disclaimer">Illustrative stock imagery only. Replace with approved personal photographs before publication.</p>
                 </motion.section>
 
                 <motion.section id="venue" className="content-section venue-section" aria-labelledby="venue-title" {...sectionReveal}>
@@ -384,7 +400,7 @@ export default function App() {
         <footer className="site-footer" aria-hidden={!envelopeOpened}>
           <div className="footer-monogram">A&amp;A</div>
           <p>{invitationData.couple} · Wedding invitation</p>
-          <Caption1>Personal photographs and soundtrack may be added by the families.</Caption1>
+          <Caption1>Eight years of love. Forever to go. <span aria-hidden="true">∞</span></Caption1>
         </footer>
 
         <AnimatePresence>
@@ -396,7 +412,6 @@ export default function App() {
           onToggle={toggleAudio}
           status={audioStatus}
         />
-        <DataStateSwitcher state={previewState} />
         <CalendarReminderDialog
           open={calendarOpen}
           onClose={() => setCalendarOpen(false)}

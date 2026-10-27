@@ -1,4 +1,4 @@
-import couplePortrait from '../annimation-clip/3D Indian Wedding Couple Portrait.png';
+import couplePortrait from '../photos/475F1045-7673-495E-AE8B-2DE900FB1A11.jpg';
 import receptionAttire from '../annimation-clip/Reception Attire.png';
 import joyfulWeddingImage from '../annimation-clip/Joyful South Indian Wedding Couple.png';
 
@@ -7,19 +7,19 @@ const venueAddress = '31/10, left of Magadi Main Road, behind Saraswathi Convent
 const mapQuery = new URLSearchParams({ query: `${venue}, ${venueAddress}` });
 
 export const wedding = {
-  couple: 'Ajith B & Anjana S',
+  couple: 'Ajith B & Anjana S 💍✨',
   groom: { name: 'Ajith B', father: 'Balakrishna M', mother: 'Rani B' },
-  bride: { name: 'Anjana S', father: 'Shivakumar S', mother: 'Manjula' },
-  invitationMessage: 'Please join Ajith B and Anjana S and their families for the wedding reception and muhurtham. Your presence will make these celebrations all the more meaningful.',
+  bride: { name: 'Anjana S', father: 'Shivakumar R', mother: 'Manjula E' },
+  invitationMessage: 'As we step into this beautiful new chapter of our lives, having the people who matter most beside us means everything. We joyfully invite you to join us and our families to celebrate our Marriage. Your presence, love, and blessings will make our special day truly complete.✨🙏❤️',
   familyDetails: [
-    { label: "Groom's parents", names: 'Balakrishna M & Rani B' },
-    { label: "Bride's parents", names: 'Shivakumar S & Manjula' },
+    { label: "Groom's parents 🌸", names: 'Balakrishna M & Rani B' },
+    { label: "Bride's parents 🌸", names: 'Shivakumar R & Manjula E' },
   ],
   venue,
   venueAddress,
   venueArea: 'Govindaraja Nagar Ward, Vijayanagar, Bengaluru',
   mapUrl: `https://www.google.com/maps/search/?api=1&${mapQuery.toString()}`,
-  description: 'With joyful hearts, Ajith B and Anjana S invite you to join their families for two days of celebration in Bengaluru.',
+  description: 'With joyful hearts and the blessings of our families, we invite you to share in our happiness as we unite in marriage and begin this beautiful new journey together',
   events: [
     {
       id: 'reception-2026',
@@ -70,8 +70,8 @@ export const wedding = {
     {
       id: 'couple-portrait',
       title: 'Ajith & Anjana',
-      caption: 'A portrait of the couple in their wedding attire.',
-      alt: 'Ajith and Anjana together in Indian wedding attire',
+      caption: 'A moment together from our journey.',
+      alt: 'Ajith and Anjana together outdoors in the mountains',
       src: couplePortrait,
     },
   ],

@@ -1,5 +1,6 @@
 import { Button, Caption1 } from '@fluentui/react-components';
 import { PauseRegular, PlayRegular } from '@fluentui/react-icons';
+import weddingMusicUrl from '../music/Tamil Wedding Invitation Minnaley BGM Save the date.mp3';
 
 export default function VinylPlayer({ audioRef, isPlaying, onToggle, status }) {
   return (
@@ -17,7 +18,7 @@ export default function VinylPlayer({ audioRef, isPlaying, onToggle, status }) {
         aria-label={isPlaying ? 'Pause soundtrack' : 'Play soundtrack'}
         onClick={onToggle}
       />
-      <audio ref={audioRef} src="/bg-music.mp3" loop preload="none" onError={() => {}} />
+      <audio ref={audioRef} src={weddingMusicUrl} loop preload="none" onError={() => {}} />
     </div>
   );
 }

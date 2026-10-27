@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { useReducedMotion } from 'framer-motion';
 import videoUrl from '../annimation-clip/bg-removed-traditional.mp4';
-import portraitUrl from '../annimation-clip/3D Indian Wedding Couple Portrait.png';
 
 const vertexShader = `
   varying vec2 vUv;
@@ -35,12 +34,10 @@ const fragmentShader = `
 export default function CoupleVideoScene() {
   const hostRef = useRef(null);
   const reducedMotion = useReducedMotion();
-  const [usePortrait, setUsePortrait] = useState(true);
 
   useEffect(() => {
     const host = hostRef.current;
     if (!host || !window.WebGLRenderingContext) {
-      setUsePortrait(true);
       return undefined;
     }
 
@@ -53,7 +50,6 @@ export default function CoupleVideoScene() {
         powerPreference: 'low-power',
       });
     } catch {
-      setUsePortrait(true);
       return undefined;
     }
 
@@ -126,15 +122,10 @@ export default function CoupleVideoScene() {
 
     const observer = new ResizeObserver(resize);
     observer.observe(host);
-    video.addEventListener('loadeddata', () => {
-      setUsePortrait(false);
-      render();
-    });
-    video.addEventListener('playing', () => setUsePortrait(false), { once: true });
-    video.addEventListener('error', () => setUsePortrait(true), { once: true });
+    video.addEventListener('loadeddata', render);
     resize();
     if (reducedMotion) video.currentTime = 0;
-    else video.play().then(() => setUsePortrait(false)).catch(() => setUsePortrait(true));
+    else video.play().catch(() => {});
 
     return () => {
       disposed = true;
@@ -160,11 +151,6 @@ export default function CoupleVideoScene() {
         role="img"
         aria-label="The supplied animated couple video with its charcoal checkerboard background removed"
       />
-      {usePortrait && (
-        <div className="couple-scene-fallback">
-          <img src={portraitUrl} alt="Ajith and Anjana together in Indian wedding attire" />
-        </div>
-      )}
       <p className="sr-only">The provided couple animation plays over the invitation's own background before the invitation is opened.</p>
     </div>
   );

@@ -36,6 +36,18 @@ describe('wedding invitation page', () => {
     expect(screen.getByText('9:00-10:30 AM IST')).toBeInTheDocument();
   });
 
+  it('opens the first Moments story with keyboard activation', async () => {
+    render(<App />);
+    await screen.findByText('Dear Priya,');
+
+    const storyCard = screen.getByRole('button', { name: 'Read story: A Day to Remember 🌿' });
+    fireEvent.keyDown(storyCard, { key: 'Enter' });
+
+    expect(await screen.findByText('TWO PEOPLE. TWO FAMILIES. ONE BEAUTIFUL YES! ❤️')).toBeInTheDocument();
+    expect(screen.getByText('காதல் தொடங்கியது இருவரால்… இன்று இரண்டு குடும்பங்களையும் இணைத்திருக்கிறது. ❤️')).toBeInTheDocument();
+    expect(screen.getByText('ಎರಡು ಮನಸುಗಳು ಒಂದಾದವು… ಇಂದು ಎರಡು ಕುಟುಂಬಗಳು ಒಂದಾಗಿವೆ. ❤️')).toBeInTheDocument();
+  });
+
   it('opens the calendar reminder dialog from the invitation action', async () => {
     render(<App />);
     await screen.findByText('Dear Priya,');

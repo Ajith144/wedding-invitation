@@ -51,7 +51,7 @@ export default function CalendarReminderDialog({ open, onClose, events, onChoose
             Save a date
           </DialogTitle>
           <DialogContent>
-            <p className="dialog-intro">Choose a calendar action for one event. Your browser or calendar app may handle it differently; importing and notifications are not automatic.</p>
+            <p className="dialog-intro">Add the celebrations directly to your calendar so you don't miss a moment.</p>
             <div className="dialog-event-list">
               {events.map((event) => (
                 <div className="dialog-event" key={event.id}>
