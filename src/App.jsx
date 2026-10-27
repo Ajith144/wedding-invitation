@@ -181,9 +181,10 @@ export default function App() {
     void toggleAudio();
   }
 
-  function chooseCalendarEvent(event) {
+  async function chooseCalendarEvent(event) {
     try {
-      const result = openCalendarAction(event, navigator.userAgent, navigator.maxTouchPoints || 0, window);
+      const result = await openCalendarAction(event, navigator.userAgent, navigator.maxTouchPoints || 0, window, navigator);
+      if (result === 'cancelled') return;
       if (result === 'blocked') {
         setFailedCalendarEvent(event);
         setCalendarError('The calendar tab was blocked. Allow pop-ups for this site, then retry the event action.');

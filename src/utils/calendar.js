@@ -86,21 +86,28 @@ export function buildGoogleCalendarUrl(event) {
   return url.toString();
 }
 
-export function downloadAppleCalendar(event, documentRef = document) {
-  const anchor = documentRef.createElement('a');
-  const file = buildCalendarFile(event);
-  anchor.href = `data:text/calendar;charset=utf-8,${encodeURIComponent(file)}`;
-  anchor.download = `${event.id}.ics`;
-  anchor.hidden = true;
-  documentRef.body.append(anchor);
-  anchor.click();
-  anchor.remove();
-}
-
-export function openCalendarAction(event, userAgent, maxTouchPoints, windowRef = window) {
+export async function openCalendarAction(event, userAgent, maxTouchPoints, windowRef = window, navigatorRef = navigator) {
   if (isAppleCalendarClient(userAgent, maxTouchPoints)) {
-    downloadAppleCalendar(event);
-    return 'download';
+    const calendarFile = new File([buildCalendarFile(event)], `${event.id}.ics`, { type: 'text/calendar' });
+    let canShareFile = typeof navigatorRef.share === 'function';
+    if (canShareFile && typeof navigatorRef.canShare === 'function') {
+      try {
+        canShareFile = navigatorRef.canShare({ files: [calendarFile] });
+      } catch {
+        canShareFile = false;
+      }
+    }
+    if (canShareFile) {
+      try {
+        await navigatorRef.share({
+          files: [calendarFile],
+          title: `${event.name} | Ajith B & Anjana S`,
+        });
+        return 'shared';
+      } catch (error) {
+        if (error.name === 'AbortError') return 'cancelled';
+      }
+    }
   }
   const opened = windowRef.open(buildGoogleCalendarUrl(event), '_blank');
   if (!opened) return 'blocked';

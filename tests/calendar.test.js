@@ -1,10 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
   buildCalendarFile,
   buildGoogleCalendarUrl,
   escapeCalendarText,
   foldCalendarLine,
   isAppleCalendarClient,
+  openCalendarAction,
 } from '../src/utils/calendar.js';
 import { wedding } from '../src/content/wedding.js';
 
@@ -36,6 +37,38 @@ describe('calendar utilities', () => {
     expect(isAppleCalendarClient('Mozilla/5.0 (iPad; CPU OS 18_0 like Mac OS X)', 5)).toBe(true);
     expect(isAppleCalendarClient('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15)', 0)).toBe(false);
     expect(isAppleCalendarClient('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15)', 5)).toBe(true);
+  });
+
+  it('shares an iCalendar file on iPhone instead of downloading it', async () => {
+    const share = vi.fn().mockResolvedValue(undefined);
+    const open = vi.fn();
+    const result = await openCalendarAction(
+      wedding.events[0],
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)',
+      1,
+      { open },
+      { canShare: () => true, share },
+    );
+
+    expect(result).toBe('shared');
+    expect(share).toHaveBeenCalledOnce();
+    expect(share.mock.calls[0][0].files[0].name).toBe('reception-2026.ics');
+    expect(share.mock.calls[0][0].files[0].type).toBe('text/calendar');
+    expect(open).not.toHaveBeenCalled();
+  });
+
+  it('opens Google Calendar on iPhone when file sharing is unavailable', async () => {
+    const open = vi.fn(() => ({}));
+    const result = await openCalendarAction(
+      wedding.events[0],
+      'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)',
+      1,
+      { open },
+      {},
+    );
+
+    expect(result).toBe('opened');
+    expect(open).toHaveBeenCalledWith(buildGoogleCalendarUrl(wedding.events[0]), '_blank');
   });
 
   it('encodes Google Calendar values and timezone', () => {

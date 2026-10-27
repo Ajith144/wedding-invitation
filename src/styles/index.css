@@ -246,6 +246,9 @@ h1, h2, h3 { font-family: 'Cormorant Garamond', Georgia, serif; letter-spacing: 
 .couple-scene-wrap { position: relative; z-index: 1; width: min(620px, 94vw); height: clamp(270px, 42vh, 360px); flex: 0 0 auto; }
 .couple-scene { position: absolute; inset: 0; }
 .couple-scene canvas { display: block; width: 100%; height: 100%; }
+.couple-video-play { position: absolute; z-index: 2; left: 50%; bottom: 8px; display: inline-flex; min-height: 36px; align-items: center; gap: 7px; padding: 0 12px; transform: translateX(-50%); border: 1px solid rgba(223, 197, 126, 0.8); border-radius: 4px; background: rgba(16, 35, 27, 0.92); color: #f2ead7; font: inherit; font-size: 11px; cursor: pointer; }
+.couple-video-play svg { width: 14px; height: 14px; }
+.couple-video-play:focus-visible { outline: 3px solid #d3a44f; outline-offset: 3px; }
 .couple-scene-fallback { display: grid; height: 100%; place-items: center; overflow: hidden; border: 1px solid rgba(195, 164, 95, 0.4); border-radius: 8px; background: #fffdf7; }
 .couple-scene-fallback img { width: 100%; height: 100%; object-fit: contain; }
 .couple-scene-fallback span { display: none; }
