@@ -5,7 +5,7 @@ import { Button } from '@fluentui/react-components';
 import CoupleVideoScene from './CoupleVideoScene.jsx';
 import WeddingFlorals from './WeddingFlorals.jsx';
 
-export default function RoyalEnvelope({ couple, guest, onOpen }) {
+export default function RoyalEnvelope({ couple, guest, buildVersion, playbackRef, onOpen }) {
   const buttonRef = useRef(null);
   const reducedMotion = useReducedMotion();
   const coverCouple = couple.replace(/[💍✨❤️]/gu, '').replace(/\s+/g, ' ').trim();
@@ -34,7 +34,7 @@ export default function RoyalEnvelope({ couple, guest, onOpen }) {
       transition={{ duration: reducedMotion ? 0.01 : 0.55, ease: [0.22, 1, 0.36, 1] }}
     >
       <WeddingFlorals variant="cover" />
-      <CoupleVideoScene />
+      <CoupleVideoScene playbackRef={playbackRef} />
       <p className="envelope-kicker">With joyful hearts, for</p>
       <h1 id="envelope-title" className="envelope-title" aria-label={coverCouple}>
         {coverCouple} <span aria-hidden="true">❤️</span>
@@ -51,6 +51,7 @@ export default function RoyalEnvelope({ couple, guest, onOpen }) {
         Open the invitation
       </Button>
       <span className="envelope-note">Bengaluru · 18-19 November 2026</span>
+      <span className="envelope-build">Invitation build {buildVersion}</span>
     </motion.div>
   );
 }

@@ -51,6 +51,7 @@ const brandRamp = {
 };
 const lightTheme = createLightTheme(brandRamp);
 const darkTheme = createDarkTheme(brandRamp);
+const invitationBuildVersion = import.meta.env.VITE_INVITATION_VERSION;
 
 function readThemePreference() {
   const saved = window.localStorage.getItem('app-theme');
@@ -108,6 +109,7 @@ export default function App() {
   const [themePreference, setThemePreference] = useState(readThemePreference);
   const [systemDark, setSystemDark] = useState(() => window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false);
   const audioRef = useRef(null);
+  const coverVideoPlaybackRef = useRef(null);
 
   useEffect(() => {
     let active = true;
@@ -165,6 +167,7 @@ export default function App() {
   }
 
   function openInvitation() {
+    if (!reducedMotion) coverVideoPlaybackRef.current?.();
     setEnvelopeOpened(true);
     setCalendarError('');
     setCalendarOpen(true);
@@ -405,7 +408,15 @@ export default function App() {
         </footer>
 
         <AnimatePresence>
-          {!envelopeOpened && <RoyalEnvelope couple={invitationData.couple} guest={guest} onOpen={openInvitation} />}
+          {!envelopeOpened && (
+            <RoyalEnvelope
+              couple={invitationData.couple}
+              guest={guest}
+              buildVersion={invitationBuildVersion}
+              playbackRef={coverVideoPlaybackRef}
+              onOpen={openInvitation}
+            />
+          )}
         </AnimatePresence>
         <VinylPlayer
           audioRef={audioRef}

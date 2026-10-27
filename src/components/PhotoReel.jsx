@@ -105,11 +105,25 @@ export default function PhotoReel({ photos }) {
                 onClick={(event) => openMoment(event, moment)}
                 onKeyDown={(event) => openMoment(event, moment)}
               >
-                <img src={photo.src} alt={photo.alt} loading="lazy" />
-                <div className="photo-caption">
-                  <Title3>{story.title}</Title3>
-                  <Caption1>{story.subtitle}</Caption1>
-                  <span className="photo-card-action">Explore story <ArrowUpRight size={14} aria-hidden="true" /></span>
+                <div className="photo-card-inner">
+                  <div className="photo-card-front">
+                    <img src={photo.src} alt={photo.alt} loading="lazy" />
+                    <div className="photo-caption">
+                      <Title3>{story.title}</Title3>
+                      <Caption1>{story.subtitle}</Caption1>
+                      <span className="photo-card-action" aria-hidden="true">
+                        <span>Open story</span>
+                        <ArrowUpRight size={17} />
+                      </span>
+                    </div>
+                  </div>
+                  <div className="photo-card-back" aria-hidden="true">
+                    <div className="photo-card-back-content">
+                      <ArrowUpRight size={30} />
+                      <strong>Click or tap to open the story</strong>
+                      <span>Press Enter to open</span>
+                    </div>
+                  </div>
                 </div>
               </Card>
             </motion.div>

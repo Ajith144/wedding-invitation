@@ -32,16 +32,16 @@ const fragmentShader = `
   }
 `;
 
-export default function CoupleVideoScene() {
+export default function CoupleVideoScene({ playbackRef }) {
   const hostRef = useRef(null);
   const videoRef = useRef(null);
   const reducedMotion = useReducedMotion();
-  const [playbackBlocked, setPlaybackBlocked] = useState(false);
+  const [playbackBlocked, setPlaybackBlocked] = useState(Boolean(reducedMotion));
 
   function retryPlayback() {
-    videoRef.current?.play()
-      .then(() => setPlaybackBlocked(false))
-      .catch(() => setPlaybackBlocked(true));
+    const video = videoRef.current;
+    if (!video) return;
+    video.play().then(() => setPlaybackBlocked(false)).catch(() => setPlaybackBlocked(true));
   }
 
   useEffect(() => {
@@ -64,7 +64,6 @@ export default function CoupleVideoScene() {
 
     const video = document.createElement('video');
     videoRef.current = video;
-    video.src = videoUrl;
     video.loop = true;
     video.muted = true;
     video.defaultMuted = true;
@@ -84,6 +83,8 @@ export default function CoupleVideoScene() {
     video.style.pointerEvents = 'none';
     video.setAttribute('aria-hidden', 'true');
     host.appendChild(video);
+    video.src = videoUrl;
+    playbackRef.current = retryPlayback;
 
     const texture = new THREE.VideoTexture(video);
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -120,7 +121,7 @@ export default function CoupleVideoScene() {
     function render() {
       if (disposed) return;
       renderer.render(scene, camera);
-      if (!reducedMotion) animationFrame = window.requestAnimationFrame(render);
+      if (!reducedMotion || !video.paused) animationFrame = window.requestAnimationFrame(render);
     }
 
     function resize() {
@@ -140,15 +141,23 @@ export default function CoupleVideoScene() {
     const observer = new ResizeObserver(resize);
     observer.observe(host);
     video.addEventListener('loadeddata', render);
-    video.addEventListener('playing', () => setPlaybackBlocked(false), { once: true });
+    video.addEventListener('playing', () => {
+      setPlaybackBlocked(false);
+      render();
+    });
+    video.addEventListener('error', () => setPlaybackBlocked(true));
     resize();
-    if (reducedMotion) video.currentTime = 0;
+    if (reducedMotion) {
+      video.currentTime = 0;
+      setPlaybackBlocked(true);
+    }
     else video.play().catch(() => setPlaybackBlocked(true));
 
     return () => {
       disposed = true;
       window.cancelAnimationFrame(animationFrame);
       observer.disconnect();
+      if (playbackRef.current === retryPlayback) playbackRef.current = null;
       video.pause();
       videoRef.current = null;
       video.removeAttribute('src');
@@ -160,7 +169,7 @@ export default function CoupleVideoScene() {
       renderer.dispose();
       renderer.domElement.remove();
     };
-  }, [reducedMotion]);
+  }, [playbackRef, reducedMotion]);
 
   return (
     <div className="couple-scene-wrap">
@@ -170,7 +179,7 @@ export default function CoupleVideoScene() {
         role="img"
         aria-label="The supplied animated couple video with its charcoal checkerboard background removed"
       />
-      {playbackBlocked && !reducedMotion && (
+      {playbackBlocked && videoRef.current && (
         <button className="couple-video-play" type="button" onClick={retryPlayback}>
           <PlayRegular aria-hidden="true" />
           Tap to play animation
