@@ -111,10 +111,17 @@ export default function PhotoReel({ photos }) {
                     <div className="photo-caption">
                       <Title3>{story.title}</Title3>
                       <Caption1>{story.subtitle}</Caption1>
-                      <span className="photo-card-action" aria-hidden="true">
+                      <motion.span
+                        className="photo-card-action"
+                        aria-hidden="true"
+                        initial={false}
+                        whileInView={reducedMotion ? undefined : { opacity: [1, 0.6, 1] }}
+                        viewport={{ once: true, amount: 0.8 }}
+                        transition={{ duration: 1.25, repeat: 3, ease: 'easeInOut' }}
+                      >
                         <span>Open story</span>
                         <ArrowUpRight size={17} />
-                      </span>
+                      </motion.span>
                     </div>
                   </div>
                   <div className="photo-card-back" aria-hidden="true">

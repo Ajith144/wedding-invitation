@@ -55,7 +55,7 @@ const invitationBuildVersion = import.meta.env.VITE_INVITATION_VERSION;
 
 function readThemePreference() {
   const saved = window.localStorage.getItem('app-theme');
-  return ['light', 'dark', 'system'].includes(saved) ? saved : 'system';
+  return ['light', 'dark', 'system'].includes(saved) ? saved : 'light';
 }
 
 function SectionHeading({ icon, title, hint }) {
